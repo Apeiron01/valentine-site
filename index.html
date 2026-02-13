@@ -7,17 +7,26 @@
 
   <style>
     :root{
-      --bg:#f4c9d6; --stroke:rgba(111,74,164,.25);
-      --text:#3b2358; --muted:rgba(59,35,88,.7);
-      --purple:#7a4bb7; --pink:#f08db2;
+      /* MAIN (toz pembe) tema */
+      --bg: #f4c9d6;
+      --panel: rgba(255,255,255,.55);
+      --stroke: rgba(111, 74, 164, .25);
+      --text: #3b2358;
+      --muted: rgba(59,35,88,.7);
+      --lilac: #b79bdf;
+      --purple: #7a4bb7;
+      --pink: #f08db2;
+      --rose: #f7a7c4;
 
-      --pass-bg1:#0f0d16; --pass-bg2:#0b0912;
-      --pass-stroke:rgba(183,155,223,.28);
-      --pass-text:#f6effa; --pass-muted:rgba(246,239,250,.72);
-
-      --gate-stroke:rgba(183,155,223,.28);
-      --gate-text:#f6effa; --gate-muted:rgba(246,239,250,.72);
-      --gate-accent2:#f08db2;
+      /* PASSWORD + GATE (koyu) tema */
+      --dark1: #0f0d16;
+      --dark2: #0b0912;
+      --dark-panel: rgba(255,255,255,.07);
+      --dark-stroke: rgba(183,155,223,.28);
+      --dark-text: #f6effa;
+      --dark-muted: rgba(246,239,250,.72);
+      --danger: #ff5a87;
+      --ok: #4ef0b6;
     }
 
     *{box-sizing:border-box}
@@ -26,349 +35,528 @@
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       overflow-x:hidden;
-      background: var(--pass-bg1);
-      color: var(--pass-text);
+      background: var(--dark1);
+      color: var(--dark-text);
     }
 
-    /* ===== PASSWORD ===== */
+    /* ========= PASSWORD SCREEN ========= */
     .pass{
-      min-height:100vh; display:flex; align-items:center; justify-content:center;
-      padding:clamp(16px,3vw,32px);
-      position:fixed; inset:0; z-index:99999;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: clamp(16px, 3vw, 32px);
+      position:fixed;
+      inset:0;
+      z-index:99999;
       background:
         radial-gradient(900px 600px at 20% 10%, rgba(183,155,223,.20), transparent 55%),
         radial-gradient(900px 700px at 80% 30%, rgba(240,141,178,.16), transparent 55%),
         radial-gradient(1000px 800px at 40% 90%, rgba(122,75,183,.18), transparent 60%),
-        linear-gradient(180deg, var(--pass-bg1), var(--pass-bg2));
+        linear-gradient(180deg, var(--dark1), var(--dark2));
     }
     .passCard{
-      width:min(620px,100%);
-      border-radius:26px;
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
-      border:1px solid var(--pass-stroke);
-      box-shadow:0 30px 90px rgba(0,0,0,.55);
-      backdrop-filter:blur(12px);
+      width:min(620px, 100%);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border: 1px solid var(--dark-stroke);
+      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+      backdrop-filter: blur(12px);
       overflow:hidden;
     }
     .passHeader{
-      padding:clamp(18px,3vw,26px);
-      border-bottom:1px solid rgba(183,155,223,.18);
-      background:linear-gradient(90deg, rgba(183,155,223,.12), rgba(240,141,178,.10));
+      padding: clamp(18px, 3vw, 26px);
+      border-bottom: 1px solid rgba(183,155,223,.18);
+      background: linear-gradient(90deg, rgba(183,155,223,.12), rgba(240,141,178,.10));
     }
     .passTitle{
-      margin:0; font-weight:950; letter-spacing:.6px; text-transform:uppercase;
-      font-size:clamp(18px,3vw,26px);
+      margin:0;
+      font-weight: 950;
+      letter-spacing:.6px;
+      text-transform: uppercase;
+      font-size: clamp(18px, 3vw, 26px);
     }
-    .passBody{ padding:clamp(18px,3vw,26px); display:grid; gap:12px; }
-    .passRow{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .passBody{
+      padding: clamp(18px, 3vw, 26px);
+      display:grid;
+      gap: 12px;
+    }
+    .rowFlex{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
     .passInput{
-      flex:1 1 240px; min-width:220px;
-      padding:14px; border-radius:16px;
-      border:1px solid rgba(183,155,223,.28);
-      background:rgba(0,0,0,.18);
-      color:var(--pass-text); outline:none;
-      font-weight:850; letter-spacing:.25px;
+      flex: 1 1 240px;
+      min-width: 220px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(183,155,223,.28);
+      background: rgba(0,0,0,.18);
+      color: var(--dark-text);
+      outline:none;
+      font-weight: 850;
+      letter-spacing:.25px;
     }
-    .passInput::placeholder{ color:rgba(246,239,250,.45); font-weight:700; }
-    .passBtn{
-      appearance:none; border:1px solid rgba(183,155,223,.35);
-      background:linear-gradient(180deg, rgba(183,155,223,.20), rgba(240,141,178,.14));
-      color:var(--pass-text);
-      padding:13px 14px; border-radius:16px; cursor:pointer;
-      font-weight:950; letter-spacing:.3px;
-      transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
+    .passInput::placeholder{ color: rgba(246,239,250,.45); font-weight:700; }
+    .btnDark{
+      appearance:none;
+      border: 1px solid rgba(183,155,223,.35);
+      background: linear-gradient(180deg, rgba(183,155,223,.20), rgba(240,141,178,.14));
+      color: var(--dark-text);
+      padding: 13px 14px;
+      border-radius: 16px;
+      cursor:pointer;
+      font-weight: 950;
+      letter-spacing:.3px;
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
       user-select:none;
     }
-    .passBtn:hover{ transform:translateY(-1px); box-shadow:0 16px 30px rgba(0,0,0,.35); filter:brightness(1.05); }
-    .passMsg{
-      font-size:12px; font-weight:900; letter-spacing:.2px;
-      padding:10px 12px; border-radius:14px;
-      border:1px solid rgba(183,155,223,.2);
-      background:rgba(255,255,255,.06);
-      color:var(--pass-muted);
+    .btnDark:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(0,0,0,.35);
+      filter: brightness(1.05);
+    }
+    .msg{
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing:.2px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(183,155,223,.2);
+      background: rgba(255,255,255,.06);
+      color: var(--dark-muted);
       display:none;
     }
-    .passMsg.err{
-      border-color:rgba(255,90,135,.35);
-      color:rgba(255,90,135,.95);
-      background:rgba(255,90,135,.08);
-      display:block;
+    .msg.err{
+      border-color: rgba(255,90,135,.35);
+      color: rgba(255,90,135,.95);
+      background: rgba(255,90,135,.08);
+    }
+    .msg.ok{
+      border-color: rgba(78,240,182,.35);
+      color: rgba(78,240,182,.95);
+      background: rgba(78,240,182,.08);
     }
 
-    /* ===== GATE ===== */
+    /* ========= GATE SCREEN ========= */
     .gate{
-      min-height:100vh; display:none; align-items:center; justify-content:center;
-      padding:clamp(16px,3vw,32px);
+      min-height:100vh;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: clamp(16px, 3vw, 32px);
+      position:fixed;
+      inset:0;
+      z-index:99998;
       background:
         radial-gradient(900px 600px at 20% 10%, rgba(183,155,223,.20), transparent 55%),
         radial-gradient(900px 700px at 80% 30%, rgba(240,141,178,.16), transparent 55%),
         radial-gradient(1000px 800px at 40% 90%, rgba(122,75,183,.18), transparent 60%),
-        linear-gradient(180deg, #0f0d16, #0b0912);
+        linear-gradient(180deg, var(--dark1), var(--dark2));
     }
     .gateCard{
-      width:min(720px,100%);
-      border-radius:28px;
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
-      border:1px solid var(--gate-stroke);
-      box-shadow:0 30px 90px rgba(0,0,0,.55);
-      backdrop-filter:blur(12px);
+      width:min(720px, 100%);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border: 1px solid var(--dark-stroke);
+      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+      backdrop-filter: blur(12px);
       overflow:hidden;
     }
     .gateHeader{
-      padding:clamp(18px,3vw,28px);
-      border-bottom:1px solid rgba(183,155,223,.18);
-      background:linear-gradient(90deg, rgba(183,155,223,.12), rgba(240,141,178,.10));
+      padding: clamp(18px, 3vw, 28px);
+      border-bottom: 1px solid rgba(183,155,223,.18);
+      background: linear-gradient(90deg, rgba(183,155,223,.12), rgba(240,141,178,.10));
     }
-    .gateTitle{ margin:0; font-weight:950; letter-spacing:.6px; text-transform:uppercase; font-size:clamp(20px,3vw,30px); }
-    .gateBody{ padding:clamp(18px,3vw,28px); display:grid; gap:14px; }
+    .gateTitle{
+      margin:0;
+      font-weight: 950;
+      letter-spacing:.6px;
+      text-transform: uppercase;
+      font-size: clamp(20px, 3vw, 30px);
+    }
+    .gateBody{
+      padding: clamp(18px, 3vw, 28px);
+      display:grid;
+      gap: 14px;
+    }
     .gatePrompt{
-      border:1px solid rgba(183,155,223,.18);
-      background:rgba(255,255,255,.06);
-      border-radius:20px; padding:14px;
+      border: 1px solid rgba(183,155,223,.18);
+      background: rgba(255,255,255,.06);
+      border-radius: 20px;
+      padding: 14px 14px;
     }
-    .gatePrompt .q{ margin:0; font-weight:900; letter-spacing:.2px; font-size:14px; }
-    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    .input{
-      flex:1 1 240px; min-width:220px;
-      padding:14px; border-radius:16px;
-      border:1px solid rgba(183,155,223,.28);
-      background:rgba(0,0,0,.18);
-      color:var(--gate-text); outline:none;
-      font-weight:800; letter-spacing:.25px;
+    .gatePrompt .q{
+      font-weight: 900;
+      letter-spacing:.2px;
+      margin:0;
+      font-size: 14px;
     }
-    .input::placeholder{ color:rgba(246,239,250,.45); font-weight:700; }
-    .btn{
-      appearance:none; border:1px solid rgba(183,155,223,.35);
-      background:linear-gradient(180deg, rgba(183,155,223,.20), rgba(240,141,178,.14));
-      color:var(--gate-text);
-      padding:13px 14px; border-radius:16px; cursor:pointer;
-      font-weight:950; letter-spacing:.3px;
-      transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
-      user-select:none;
+    .inputDark{
+      flex: 1 1 240px;
+      min-width: 220px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(183,155,223,.28);
+      background: rgba(0,0,0,.18);
+      color: var(--dark-text);
+      outline:none;
+      font-weight: 800;
+      letter-spacing:.25px;
     }
-    .btn:hover{ transform:translateY(-1px); box-shadow:0 16px 30px rgba(0,0,0,.35); filter:brightness(1.05); }
-    .btn:disabled{ opacity:.55; cursor:not-allowed; transform:none; box-shadow:none; }
-    .msg{
-      font-size:12px; font-weight:900; letter-spacing:.2px;
-      padding:10px 12px; border-radius:14px;
-      border:1px solid rgba(183,155,223,.2);
-      background:rgba(255,255,255,.06);
-      color:var(--gate-muted);
-      display:none;
-    }
-    .msg.err{
-      border-color:rgba(255,90,135,.35);
-      color:rgba(255,90,135,.95);
-      background:rgba(255,90,135,.08);
-      display:block;
-    }
-    .msg.ok{
-      border-color:rgba(78,240,182,.35);
-      color:rgba(78,240,182,.95);
-      background:rgba(78,240,182,.08);
-      display:block;
-    }
+    .inputDark::placeholder{ color: rgba(246,239,250,.45); font-weight:700; }
+
+    .hidden{ display:none !important; }
 
     .gateLoader{
       display:none;
-      padding:26px 18px 30px;
-      border-top:1px solid rgba(183,155,223,.18);
-      background:rgba(0,0,0,.10);
+      padding: 26px 18px 30px;
+      border-top: 1px solid rgba(183,155,223,.18);
+      background: rgba(0,0,0,.10);
     }
-    .gateLoaderTop{ display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; text-align:center; }
-    .gateLoaderTop .okText{ font-weight:950; letter-spacing:.35px; color:rgba(78,240,182,.95); font-size:14px; }
-    .gateLoaderTop .sub{ font-size:12px; color:var(--gate-muted); }
+    .gateLoaderTop{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap: 10px;
+      text-align:center;
+    }
+    .gateLoaderTop .okText{
+      font-weight: 950;
+      letter-spacing:.35px;
+      color: rgba(78,240,182,.95);
+      font-size: 14px;
+    }
 
-    /* Heart loader */
-    .cssload-main{ position:relative; width:160px; height:140px; margin:10px auto 0; transform:translateZ(0); }
-    .cssload-main *{ font-size:62px; }
-    .cssload-heart{ animation:cssload-heart 2.88s cubic-bezier(0.75,0,0.5,1) infinite normal; top:50%; left:50%; position:absolute; transform:translate(-50%,-50%); }
-    .cssload-heartL,.cssload-heartR{
-      width:1em; height:1em; border:1px solid var(--gate-accent2); background-color:var(--gate-accent2);
-      position:absolute; display:block; border-radius:100%; box-shadow:0 20px 40px rgba(0,0,0,.35);
+    /* From Uiverse.io by SouravBandyopadhyay (loader) */
+    .cssload-main {
+      position: relative;
+      width: 160px;
+      height: 140px;
+      margin: 10px auto 0;
+      transform: translateZ(0);
     }
-    .cssload-heartL{ animation:cssload-heartL 2.88s cubic-bezier(0.75,0,0.5,1) infinite normal; transform:translate(-28px,-27px); }
-    .cssload-heartR{ animation:cssload-heartR 2.88s cubic-bezier(0.75,0,0.5,1) infinite normal; transform:translate(28px,-27px); }
-    .cssload-square{
-      width:1em; height:1em; border:1px solid var(--gate-accent2); background-color:var(--gate-accent2);
-      position:relative; display:block; transform:scale(1) rotate(-45deg);
-      animation:cssload-square 2.88s cubic-bezier(0.75,0,0.5,1) infinite normal;
-      box-shadow:0 20px 40px rgba(0,0,0,.35);
+    .cssload-main * { font-size: 62px; }
+    .cssload-heart {
+      animation: cssload-heart 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
     }
-    .cssload-shadow{
-      top:97px; left:50%; position:absolute; transform:translateX(-50%);
-      width:1em; height:.24em; background-color:rgba(246,239,250,.22);
-      border:1px solid rgba(246,239,250,.18); border-radius:50%;
-      animation:cssload-shadow 2.88s cubic-bezier(0.75,0,0.5,1) infinite normal;
+    .cssload-heartL, .cssload-heartR, .cssload-square{
+      box-shadow: 0 20px 40px rgba(0,0,0,.35);
+      border: 1px solid rgba(240,141,178,.95);
+      background-color: rgba(240,141,178,.95);
     }
-    @keyframes cssload-square{50%{border-radius:100%; transform:scale(.5) rotate(-45deg);}100%{transform:scale(1) rotate(-45deg);} }
-    @keyframes cssload-heart{50%{transform:translate(-50%,-50%) rotate(360deg);}100%{transform:translate(-50%,-50%) rotate(720deg);} }
-    @keyframes cssload-heartL{60%{transform:translate(-28px,-27px) scale(.4);} }
-    @keyframes cssload-heartR{40%{transform:translate(28px,-27px) scale(.4);} }
-    @keyframes cssload-shadow{50%{transform:translateX(-50%) scale(.5); border-color:rgba(246,239,250,.10);} }
+    .cssload-heartL {
+      width: 1em; height: 1em;
+      position: absolute; display: block;
+      border-radius: 100%;
+      animation: cssload-heartL 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
+      transform: translate(-28px, -27px);
+    }
+    .cssload-heartR {
+      width: 1em; height: 1em;
+      position: absolute; display: block;
+      border-radius: 100%;
+      transform: translate(28px, -27px);
+      animation: cssload-heartR 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
+    }
+    .cssload-square {
+      width: 1em; height: 1em;
+      position: relative; display: block;
+      transform: scale(1) rotate(-45deg);
+      animation: cssload-square 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
+    }
+    .cssload-shadow {
+      top: 97px;
+      left: 50%;
+      position: absolute;
+      transform: translateX(-50%);
+      width: 1em;
+      height: .24em;
+      background-color: rgba(246,239,250,.22);
+      border: 1px solid rgba(246,239,250,.18);
+      border-radius: 50%;
+      animation: cssload-shadow 2.88s cubic-bezier(0.75, 0, 0.5, 1) infinite normal;
+    }
+    @keyframes cssload-square { 50% { border-radius: 100%; transform: scale(0.5) rotate(-45deg); } 100% { transform: scale(1) rotate(-45deg); } }
+    @keyframes cssload-heart { 50% { transform: translate(-50%,-50%) rotate(360deg); } 100% { transform: translate(-50%,-50%) rotate(720deg); } }
+    @keyframes cssload-heartL { 60% { transform: translate(-28px, -27px) scale(0.4); } }
+    @keyframes cssload-heartR { 40% { transform: translate(28px, -27px) scale(0.4); } }
+    @keyframes cssload-shadow { 50% { transform: translateX(-50%) scale(0.5); border-color: rgba(246,239,250,.10); } }
 
-    /* ===== MAIN ===== */
+    /* ========= MAIN SCREEN ========= */
     .main{
-      display:none; min-height:100vh;
+      display:none;
+      min-height:100vh;
       background:
         radial-gradient(1200px 700px at 25% 15%, rgba(255,255,255,.55), transparent 55%),
         radial-gradient(900px 600px at 80% 35%, rgba(183,155,223,.35), transparent 60%),
         radial-gradient(900px 700px at 35% 90%, rgba(240,141,178,.35), transparent 55%),
         var(--bg);
-      color:var(--text);
+      color: var(--text);
       overflow-x:hidden;
       position:relative;
       isolation:isolate;
     }
     .wrap{
-      min-height:100vh; display:flex; align-items:center; justify-content:center;
-      padding:clamp(16px,3vw,36px);
-      position:relative; z-index:2;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: clamp(16px, 3vw, 36px);
+      position:relative;
+      z-index:2;
     }
     .card{
-      width:min(1000px,100%);
-      background:linear-gradient(180deg, rgba(255,255,255,.62), rgba(255,255,255,.42));
-      border:1px solid var(--stroke);
-      backdrop-filter:blur(10px);
-      border-radius:24px;
-      box-shadow:0 20px 60px rgba(59,35,88,.18);
+      width: min(1000px, 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,.62), rgba(255,255,255,.42));
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(59,35,88,.18);
       overflow:hidden;
-      position:relative; z-index:2;
+      position:relative;
+      z-index:2;
     }
     .topbar{
-      padding:clamp(18px,3vw,28px);
-      display:flex; align-items:center; justify-content:space-between; gap:16px;
-      border-bottom:1px solid rgba(111,74,164,.18);
+      padding: clamp(18px, 3vw, 28px);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      border-bottom: 1px solid rgba(111, 74, 164, .18);
     }
-    .brand{ display:flex; flex-direction:column; gap:6px; min-width:220px; }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width: 220px;
+    }
     .title{
-      margin:0; font-weight:900; letter-spacing:.2px;
-      font-size:clamp(24px,3.6vw,44px);
+      margin:0;
+      font-weight: 900;
+      letter-spacing: .2px;
+      font-size: clamp(24px, 3.6vw, 44px);
       line-height:1.05;
-      text-wrap:balance;
+      text-wrap: balance;
     }
+
+    .status{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding: 10px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(111, 74, 164, .18);
+      background: rgba(255,255,255,.35);
+      min-height: 56px;
+    }
+
+    /* From Uiverse.io by milley69 (nabız) */
+    .loading{
+      width: 56px;
+      height: 28px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex: 0 0 auto;
+    }
+    .loading svg polyline {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .loading svg polyline#back { stroke: rgba(122, 75, 183, .25); }
+    .loading svg polyline#front {
+      stroke: var(--purple);
+      stroke-dasharray: 48, 144;
+      stroke-dashoffset: 192;
+      animation: dash_682 1.4s linear infinite;
+    }
+    @keyframes dash_682 { 72.5% { opacity: 0; } to { stroke-dashoffset: 0; } }
+
+    .statusText{ display:flex; flex-direction:column; gap:4px; }
+    .stepName{ font-weight: 800; font-size: 13px; letter-spacing:.2px; }
+    .stepHint{ font-size: 12px; color: var(--muted); white-space:nowrap; }
+
     .content{
       display:grid;
       grid-template-columns: 1.1fr .9fr;
-      gap:clamp(14px,2.2vw,22px);
-      padding:clamp(18px,3vw,28px);
+      gap: clamp(14px, 2.2vw, 22px);
+      padding: clamp(18px, 3vw, 28px);
     }
-    @media (max-width:860px){ .content{grid-template-columns:1fr;} .brand{min-width:unset;} .topbar{flex-direction:column; align-items:flex-start;} }
+    @media (max-width: 860px){
+      .content{ grid-template-columns: 1fr; }
+      .brand{ min-width: unset; }
+      .status{ width:100%; justify-content:flex-start; }
+      .topbar{ flex-direction:column; align-items:flex-start; }
+      .stepHint{ white-space:normal; }
+    }
 
     .panel{
-      border:1px solid rgba(111,74,164,.18);
-      border-radius:20px;
-      background:rgba(255,255,255,.35);
+      border: 1px solid rgba(111, 74, 164, .18);
+      border-radius: 20px;
+      background: rgba(255,255,255,.35);
       overflow:hidden;
     }
     .panelHeader{
-      padding:14px 16px;
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      border-bottom:1px solid rgba(111,74,164,.15);
-      background:linear-gradient(90deg, rgba(183,155,223,.22), rgba(240,141,178,.18));
+      padding: 14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom: 1px solid rgba(111, 74, 164, .15);
+      background: linear-gradient(90deg, rgba(183,155,223,.22), rgba(240,141,178,.18));
     }
     .panelHeader h2{
-      margin:0; font-size:14px; letter-spacing:.25px; text-transform:uppercase; font-weight:900;
+      margin:0;
+      font-size: 14px;
+      letter-spacing:.25px;
+      text-transform: uppercase;
+      font-weight: 900;
     }
     .pill{
-      font-size:12px; font-weight:800;
-      padding:8px 10px; border-radius:999px;
-      border:1px solid rgba(111,74,164,.2);
-      background:rgba(255,255,255,.35);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(111, 74, 164, .2);
+      background: rgba(255,255,255,.35);
     }
+
     .qa{
-      padding:16px;
+      padding: 16px;
       display:flex;
       flex-direction:column;
       gap:12px;
-      min-height:320px;
+      min-height: 320px;
     }
     .bubble{
-      max-width:92%;
-      padding:12px;
-      border-radius:16px;
-      border:1px solid rgba(111,74,164,.16);
-      background:rgba(255,255,255,.45);
-      box-shadow:0 8px 18px rgba(59,35,88,.08);
+      max-width: 92%;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(111, 74, 164, .16);
+      background: rgba(255,255,255,.45);
+      box-shadow: 0 8px 18px rgba(59,35,88,.08);
     }
     .bubble.me{
       margin-left:auto;
-      background:linear-gradient(180deg, rgba(183,155,223,.22), rgba(240,141,178,.16));
+      background: linear-gradient(180deg, rgba(183,155,223,.22), rgba(240,141,178,.16));
     }
-    .bubble .k{ display:block; font-size:12px; color:var(--muted); margin-bottom:6px; font-weight:700; letter-spacing:.15px; }
-    .bubble .v{ font-size:14px; font-weight:800; line-height:1.35; }
+    .bubble .k{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 700;
+      letter-spacing:.15px;
+    }
+    .bubble .v{
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
     .actions{
-      display:flex; gap:10px; flex-wrap:wrap;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
       margin-top:auto;
-      padding-top:10px;
+      padding-top: 10px;
     }
     .btnMain{
       appearance:none;
-      border:1px solid rgba(111,74,164,.25);
-      background:rgba(255,255,255,.42);
-      color:var(--text);
-      padding:11px 12px;
-      border-radius:14px;
+      border: 1px solid rgba(111, 74, 164, .25);
+      background: rgba(255,255,255,.42);
+      color: var(--text);
+      padding: 11px 12px;
+      border-radius: 14px;
       cursor:pointer;
-      font-weight:900;
+      font-weight: 900;
       letter-spacing:.2px;
-      font-size:13px;
-      transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+      font-size: 13px;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
       user-select:none;
     }
-    .btnMain:hover{ transform:translateY(-1px); box-shadow:0 10px 20px rgba(59,35,88,.12); background:rgba(255,255,255,.55); }
+    .btnMain:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(59,35,88,.12);
+      background: rgba(255,255,255,.55);
+    }
     .btnMain.primary{
-      border-color:rgba(122,75,183,.35);
-      background:linear-gradient(180deg, rgba(122,75,183,.20), rgba(240,141,178,.16));
+      border-color: rgba(122,75,183,.35);
+      background: linear-gradient(180deg, rgba(122,75,183,.20), rgba(240,141,178,.16));
+    }
+    .btnMain:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+      box-shadow:none;
     }
 
     .albumWrap{ display:flex; flex-direction:column; gap:12px; align-items:center; }
     .albumStage{
-      width:min(360px,92vw);
-      height:min(360px,92vw);
+      width: min(360px, 92vw);
+      height: min(360px, 92vw);
       position:relative;
-      perspective:1200px;
-      border-radius:22px;
-      border:1px solid rgba(111,74,164,.18);
-      background:rgba(255,255,255,.25);
+      perspective: 1200px;
+      border-radius: 22px;
+      border: 1px solid rgba(111, 74, 164, .18);
+      background: rgba(255,255,255,.25);
       overflow:hidden;
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), 0 18px 50px rgba(59,35,88,.14);
+      touch-action: manipulation;
     }
     .album{
       position:absolute; inset:0;
-      transform-style:preserve-3d;
-      animation:spin 16s linear infinite;
+      transform-style: preserve-3d;
+      animation: spin 16s linear infinite;
       will-change: transform;
-      cursor:pointer;
-      touch-action: manipulation;
     }
     .album.paused{ animation-play-state: paused; }
-    .album:hover{ animation-play-state: paused; }
-    @keyframes spin{ from{ transform:rotateY(0deg); } to{ transform:rotateY(360deg); } }
+    @keyframes spin{ from{ transform: rotateY(0deg); } to{ transform: rotateY(360deg); } }
 
     .photo{
       position:absolute; top:50%; left:50%;
-      width:78%; height:78%;
-      transform-style:preserve-3d;
-      border-radius:18px;
+      width: 78%; height: 78%;
+      transform-style: preserve-3d;
+      border-radius: 18px;
       overflow:hidden;
-      border:1px solid rgba(111,74,164,.22);
-      box-shadow:0 14px 30px rgba(59,35,88,.18);
-      background:rgba(255,255,255,.45);
+      border: 1px solid rgba(111, 74, 164, .22);
+      box-shadow: 0 14px 30px rgba(59,35,88,.18);
+      background: rgba(255,255,255,.45);
     }
-    .photo img{ width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.08) contrast(1.02); }
-    .photo.p1{ transform:translate(-50%,-50%) rotateY(0deg)   translateZ(150px); }
-    .photo.p2{ transform:translate(-50%,-50%) rotateY(90deg)  translateZ(150px); }
-    .photo.p3{ transform:translate(-50%,-50%) rotateY(180deg) translateZ(150px); }
-    .photo.p4{ transform:translate(-50%,-50%) rotateY(270deg) translateZ(150px); }
+    .photo img{ width:100%; height:100%; object-fit: cover; display:block; filter: saturate(1.08) contrast(1.02); }
+    .photo.p1{ transform: translate(-50%, -50%) rotateY(0deg)   translateZ(150px); }
+    .photo.p2{ transform: translate(-50%, -50%) rotateY(90deg)  translateZ(150px); }
+    .photo.p3{ transform: translate(-50%, -50%) rotateY(180deg) translateZ(150px); }
+    .photo.p4{ transform: translate(-50%, -50%) rotateY(270deg) translateZ(150px); }
 
-    /* Decor hearts */
-    .decorLayer{ position:absolute; inset:0; pointer-events:none; z-index:1; }
-    .decorItem{ position:absolute; opacity:.95; filter:drop-shadow(0 10px 20px rgba(59,35,88,.18)); pointer-events:auto; }
+    /* random decor hearts + one loader (main only) */
+    .decorLayer{
+      position:absolute; inset:0;
+      pointer-events:none;
+      z-index:1;
+    }
+    .decorItem{
+      position:absolute;
+      opacity:.95;
+      filter: drop-shadow(0 10px 20px rgba(59,35,88,.18));
+      pointer-events:auto;
+    }
+
+    /* From Uiverse.io by catraco */
     .heart-container {
       --heart-color: var(--pink);
       position: relative;
-      width: 46px; height: 46px;
+      width: 46px;
+      height: 46px;
       transition: .3s;
     }
     .heart-container .checkbox { position:absolute; width:100%; height:100%; opacity:0; z-index:20; cursor:pointer; }
@@ -389,7 +577,10 @@
     @keyframes keyframes-svg-filled { 0%{transform:scale(0)} 25%{transform:scale(1.2)} 50%{transform:scale(1); filter:brightness(1.25)} }
     @keyframes keyframes-svg-celebrate { 0%{transform:scale(0)} 50%{opacity:1; filter:brightness(1.35)} 100%{transform:scale(1.4); opacity:0; display:none} }
 
-    .finalMain{
+    .loaderDecor{ pointer-events:none; opacity:.9; filter: drop-shadow(0 10px 18px rgba(59,35,88,.14)); }
+
+    /* ========= FINAL SCREEN ========= */
+    .final{
       display:none;
       min-height:100vh;
       background:
@@ -397,89 +588,107 @@
         radial-gradient(900px 600px at 80% 35%, rgba(183,155,223,.35), transparent 60%),
         radial-gradient(900px 700px at 35% 90%, rgba(240,141,178,.35), transparent 55%),
         var(--bg);
-      color:var(--text);
+      color: var(--text);
       position:relative;
       isolation:isolate;
+      overflow:hidden;
     }
     .finalWrap{
       min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:clamp(16px,3vw,36px);
+      padding: clamp(16px, 3vw, 36px);
       position:relative;
       z-index:2;
     }
     .finalCard{
-      width:min(520px,100%);
-      border-radius:24px;
-      background:linear-gradient(180deg, rgba(255,255,255,.62), rgba(255,255,255,.42));
-      border:1px solid var(--stroke);
+      width:min(900px, 100%);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,.62), rgba(255,255,255,.42));
+      border: 1px solid var(--stroke);
       backdrop-filter: blur(10px);
       box-shadow: 0 20px 60px rgba(59,35,88,.18);
-      padding: 24px;
+      padding: clamp(18px, 3vw, 28px);
+      display:grid;
+      gap: 14px;
+      justify-items:center;
       text-align:center;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      align-items:center;
-      justify-content:center;
     }
-    .finalText{
-      font-weight:950;
+    .finalTitle{
+      margin:0;
+      font-weight: 950;
       letter-spacing:.2px;
-      font-size: clamp(24px, 4vw, 36px);
+      font-size: clamp(26px, 4vw, 46px);
       line-height:1.05;
     }
-    .hidden{ display:none !important; }
+
+    /* Confetti hearts */
+    .confettiLayer{
+      position:absolute; inset:0;
+      pointer-events:none;
+      z-index:3;
+      overflow:hidden;
+    }
+    .confettiHeart{
+      position:absolute;
+      top:-60px;
+      width: 18px;
+      height: 18px;
+      opacity: .95;
+      transform: translateZ(0);
+      animation: fall linear forwards;
+      filter: drop-shadow(0 8px 14px rgba(59,35,88,.18));
+    }
+    @keyframes fall{
+      to{ transform: translate3d(var(--dx), 110vh, 0) rotate(var(--rot)); opacity: 0; }
+    }
   </style>
 </head>
 
 <body>
-  <!-- PASSWORD -->
+
+  <!-- PASSWORD SCREEN -->
   <section class="pass" id="pass">
     <div class="passCard">
       <div class="passHeader">
         <h1 class="passTitle">DUR! BU SİTE SADECE 1 KİŞİYE ÖZEL</h1>
       </div>
       <div class="passBody">
-        <div class="passRow">
+        <div class="rowFlex">
           <input class="passInput" id="passInput" type="password" placeholder="Şifre" />
-          <button class="passBtn" id="passBtn">Giriş</button>
+          <button class="btnDark" id="passBtn">Giriş</button>
         </div>
-        <div class="passMsg" id="passErr">Yanlış şifre.</div>
+        <div class="msg err" id="passErr">Yanlış şifre.</div>
       </div>
     </div>
   </section>
 
-  <!-- GATE -->
+  <!-- GATE SCREEN -->
   <section class="gate" id="gate">
     <div class="gateCard">
       <div class="gateHeader">
         <h1 class="gateTitle">DUR! BU SİTE SADECE 1 KİŞİYE ÖZEL</h1>
       </div>
 
-      <div class="gateBody" id="gateBody">
+      <div class="gateBody">
         <div class="gatePrompt">
           <p class="q">Tanışma tarihimiz nedir?</p>
         </div>
 
-        <div class="row" id="gateForm">
-          <input class="input" id="dateInput" autocomplete="off" placeholder="Örn: 13 şubat / 13/02 / 13.02" />
-          <button class="btn" id="btnCheck">Kontrol et</button>
+        <div class="rowFlex" id="gateForm">
+          <input class="inputDark" id="dateInput" autocomplete="off" placeholder="Tarihi yaz" />
+          <button class="btnDark" id="btnCheck">Kontrol et</button>
         </div>
 
-        <div class="row">
-          <div class="msg err" id="errMsg">Yanlış. Tekrar dene.</div>
-          <div class="msg ok" id="okMsg">Doğru cevap.</div>
-        </div>
+        <!-- SADECE BİRİ GÖRÜNECEK -->
+        <div class="msg err" id="errMsg">Yanlış. Tekrar dene.</div>
+        <div class="msg ok"  id="okMsg">Doğru cevap.</div>
 
         <div class="gateLoader" id="gateLoader">
           <div class="gateLoaderTop">
             <div class="okText">Doğru cevap.</div>
-            <div class="sub">Hazırlanıyor…</div>
           </div>
-
           <div class="cssload-main" aria-hidden="true">
             <div class="cssload-heart">
               <span class="cssload-heartL"></span>
@@ -493,7 +702,7 @@
     </div>
   </section>
 
-  <!-- MAIN (QUESTIONS) -->
+  <!-- MAIN SCREEN -->
   <main class="main" id="main">
     <div class="decorLayer" id="decorLayer" aria-hidden="true"></div>
 
@@ -503,10 +712,23 @@
           <div class="brand">
             <h1 class="title">Sevgililer günün kutlu olsun aşkım</h1>
           </div>
+
+          <div class="status" id="statusBox">
+            <div class="loading" title="Nabız">
+              <svg width="64px" height="48px" viewBox="0 0 64 48" aria-hidden="true">
+                <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
+                <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
+              </svg>
+            </div>
+            <div class="statusText">
+              <div class="stepName" id="stepName">Adım 1/5</div>
+              <div class="stepHint" id="stepHint">Seçeneklerden birini seç.</div>
+            </div>
+          </div>
         </div>
 
         <div class="content">
-          <section class="panel" aria-label="Soru cevap">
+          <section class="panel" aria-label="Sorular">
             <div class="panelHeader">
               <h2>Sorular</h2>
               <div class="pill" id="scorePill">0 / 5</div>
@@ -514,16 +736,16 @@
 
             <div class="qa" id="qa">
               <div class="actions">
-                <button class="btnMain primary" id="btnNext">Devam</button>
-                <button class="btnMain" id="btnFinish">Finish</button>
+                <button class="btnMain primary" id="btnNext" disabled>Devam</button>
+                <button class="btnMain primary" id="btnFinish" style="display:none;">Finish</button>
                 <button class="btnMain" id="btnReplay">Baştan</button>
               </div>
             </div>
           </section>
 
           <aside class="albumWrap" aria-label="Fotoğraf albümü">
-            <div class="albumStage">
-              <div class="album" id="albumMain" aria-label="3D dönen fotoğraflar">
+            <div class="albumStage" id="albumStage">
+              <div class="album" id="album">
                 <div class="photo p1"><img src="photo1.jpeg" alt="Fotoğraf 1"></div>
                 <div class="photo p2"><img src="photo2.jpeg" alt="Fotoğraf 2"></div>
                 <div class="photo p3"><img src="photo3.jpeg" alt="Fotoğraf 3"></div>
@@ -536,14 +758,17 @@
     </div>
   </main>
 
-  <!-- FINAL (ONLY ALBUM + TEXT) -->
-  <section class="finalMain" id="finalMain">
+  <!-- FINAL SCREEN -->
+  <section class="final" id="final">
     <div class="decorLayer" id="decorLayerFinal" aria-hidden="true"></div>
+    <div class="confettiLayer" id="confettiLayer" aria-hidden="true"></div>
+
     <div class="finalWrap">
       <div class="finalCard">
-        <div class="finalText">Seni Çok Seviyorum</div>
-        <div class="albumStage" aria-label="Final albüm">
-          <div class="album" id="albumFinal" aria-label="3D dönen fotoğraflar (final)">
+        <h1 class="finalTitle">Seni Çok Seviyorum</h1>
+
+        <div class="albumStage" id="albumStage2">
+          <div class="album" id="album2">
             <div class="photo p1"><img src="photo1.jpeg" alt="Fotoğraf 1"></div>
             <div class="photo p2"><img src="photo2.jpeg" alt="Fotoğraf 2"></div>
             <div class="photo p3"><img src="photo3.jpeg" alt="Fotoğraf 3"></div>
@@ -556,15 +781,22 @@
 
   <script>
     // =============================
-    // 1) PASSWORD
+    // 1) PASSWORD BARRIER
     // =============================
-    const PASSWORD = "Alihan"; // şifre
+    const PASSWORD = "Alihan";
 
     const pass = document.getElementById("pass");
     const passInput = document.getElementById("passInput");
     const passBtn = document.getElementById("passBtn");
     const passErr = document.getElementById("passErr");
     const gate = document.getElementById("gate");
+
+    function showOnly(el){
+      [passErr].forEach(x => { if(x){ x.style.display="none"; x.classList.remove("err","ok"); }});
+      if(el){
+        el.style.display="block";
+      }
+    }
 
     function tryPass(){
       const v = (passInput.value || "").trim();
@@ -573,22 +805,22 @@
         gate.style.display = "flex";
       } else {
         passErr.classList.add("err");
-        passErr.style.display = "block";
+        showOnly(passErr);
       }
     }
     passBtn.addEventListener("click", tryPass);
     passInput.addEventListener("keydown", (e)=>{ if(e.key==="Enter") tryPass(); });
 
     // =============================
-    // 2) GATE (13 Şubat)
+    // 2) GATE LOGIC (answer 13 şubat)
     // =============================
-    const dateInput  = document.getElementById("dateInput");
-    const btnCheck   = document.getElementById("btnCheck");
-    const errMsg     = document.getElementById("errMsg");
-    const okMsg      = document.getElementById("okMsg");
-    const gateForm   = document.getElementById("gateForm");
-    const gateLoader = document.getElementById("gateLoader");
-    const main       = document.getElementById("main");
+    const dateInput = document.getElementById("dateInput");
+    const btnCheck  = document.getElementById("btnCheck");
+    const errMsg    = document.getElementById("errMsg");
+    const okMsg     = document.getElementById("okMsg");
+    const gateForm  = document.getElementById("gateForm");
+    const gateLoader= document.getElementById("gateLoader");
+    const main      = document.getElementById("main");
 
     function norm(s){
       return (s || "")
@@ -609,28 +841,31 @@
     function isCorrect(input){
       const n = norm(input);
 
+      // "13 subat" / "13 şubat" / "13 feb" vb.
       const monthOk = n.includes("subat") || n.includes("feb") || n.includes("february");
       if ((n.startsWith("13") || n.includes(" 13 ")) && monthOk) return true;
 
+      // 13/02, 13.02, 13-02, 13 02
+      const digits = (input || "").toString().replace(/[^\d]/g, "");
+      if (digits === "1302") return true;
+
       const justNums = n.replace(/[^\d ]/g, "").replace(/\s+/g, " ").trim();
-      if (justNums === "13 02" || justNums === "13 2") return true;
-
-      const compact = (input || "").toString().replace(/[^\d]/g, "");
-      if (compact === "1302") return true;
-
       const parts = justNums.split(" ").filter(Boolean);
       if (parts.length >= 2 && parts[0] === "13" && (parts[1] === "2" || parts[1] === "02")) return true;
 
       return false;
     }
 
-    function setMsg(which){
-      errMsg.style.display = (which === "err") ? "block" : "none";
-      okMsg.style.display  = (which === "ok")  ? "block" : "none";
+    function showGateMsg(which){
+      // SADECE BİRİ
+      errMsg.style.display = "none";
+      okMsg.style.display  = "none";
+      if(which === "err") errMsg.style.display = "block";
+      if(which === "ok")  okMsg.style.display  = "block";
     }
 
     function lockGateAndLoad(){
-      setMsg("ok");
+      showGateMsg("ok");
       gateForm.classList.add("hidden");
       gateLoader.style.display = "block";
       dateInput.disabled = true;
@@ -641,32 +876,34 @@
         main.style.display = "block";
         placeDecor(document.getElementById("decorLayer"));
         renderStep();
-      }, 2500);
+      }, 3000);
     }
 
     function checkAnswer(){
       const val = dateInput.value;
       if (isCorrect(val)) lockGateAndLoad();
-      else setMsg("err");
+      else showGateMsg("err");
     }
 
     btnCheck.addEventListener("click", checkAnswer);
     dateInput.addEventListener("keydown", (e) => { if(e.key === "Enter") checkAnswer(); });
 
     // =============================
-    // 3) QUESTIONS
+    // 3) MAIN: Sorular
     // =============================
     const steps = [
       { q:"Soru 1", ask:"Bugün benden bir şey iste:", choices:["Sarılma","Bir öpücük","Beraber yürüyüş","Beraber kahve"] },
-      { q:"Soru 2", ask:"Bizim en iyi ‘ritüelimiz’ hangisi?", choices:["Gece konuşmaları","Film/seri","Spontane plan","Aynı şarkıyı açmak"] },
+      { q:"Soru 2", ask:"Bizim en iyi ritüelimiz hangisi?", choices:["Gece konuşmaları","Film/seri","Spontane plan","Aynı şarkıyı açmak"] },
       { q:"Soru 3", ask:"Beni tek kelimeyle özetle:", choices:["Güven","Heyecan","Sakinlik","Tutku"] },
       { q:"Soru 4", ask:"Bu sene birlikte bir hedef seçelim:", choices:["Yeni bir şehir","Yeni bir hobi","Daha çok fotoğraf","Daha çok ‘biz’ zamanı"] },
       { q:"Soru 5", ask:"Son soru:", choices:["Asla","İmkansız","Hayır","Kesinlikle hayır"] }
     ];
 
-    const qa        = document.getElementById("qa");
+    const qa = document.getElementById("qa");
     const scorePill = document.getElementById("scorePill");
-    const btnNext   = document.getElementById("btnNext");
+    const stepName = document.getElementById("stepName");
+    const stepHint = document.getElementById("stepHint");
+    const btnNext = document.getElementById("btnNext");
     const btnFinish = document.getElementById("btnFinish");
     const btnReplay = document.getElementById("btnReplay");
 
@@ -688,6 +925,8 @@
       qa.querySelectorAll(".bubble, .choiceGrid").forEach(el => el.remove());
 
       const s = steps[idx];
+      stepName.textContent = `Adım ${idx+1}/${steps.length}`;
+      stepHint.textContent = "Seçeneklerden birini seç.";
       scorePill.textContent = `${answered} / ${steps.length}`;
 
       qa.insertAdjacentHTML("afterbegin", bubbleHTML("bot", s.q, s.ask));
@@ -715,13 +954,8 @@
       qa.insertBefore(grid, qa.querySelector(".actions"));
 
       btnNext.disabled = true;
-      btnNext.style.opacity = .55;
-      btnNext.style.cursor = "not-allowed";
-
-      // Finish sadece en sonda aktif
-      btnFinish.disabled = idx !== steps.length-1;
-      btnFinish.style.opacity = btnFinish.disabled ? .55 : 1;
-      btnFinish.style.cursor  = btnFinish.disabled ? "not-allowed" : "pointer";
+      btnFinish.style.display = "none";
+      btnNext.style.display = "inline-block";
     }
 
     function choose(choice){
@@ -732,14 +966,12 @@
       answered = Math.min(steps.length, idx+1);
       scorePill.textContent = `${answered} / ${steps.length}`;
 
-      btnNext.disabled = false;
-      btnNext.style.opacity = 1;
-      btnNext.style.cursor = "pointer";
-
       if(idx === steps.length-1){
+        btnNext.style.display = "none";
+        btnFinish.style.display = "inline-block";
         btnFinish.disabled = false;
-        btnFinish.style.opacity = 1;
-        btnFinish.style.cursor = "pointer";
+      } else {
+        btnNext.disabled = false;
       }
     }
 
@@ -747,6 +979,7 @@
       if(idx < steps.length-1){
         idx++;
         lastChoice = null;
+        btnNext.disabled = true;
         renderStep();
       }
     });
@@ -755,47 +988,25 @@
       idx = 0;
       answered = 0;
       lastChoice = null;
+      btnNext.disabled = true;
+      btnFinish.style.display = "none";
+      btnNext.style.display = "inline-block";
       renderStep();
     });
 
     // =============================
-    // 4) FINISH -> FINAL SCREEN
-    // =============================
-    const finalMain = document.getElementById("finalMain");
-
-    function goFinal(){
-      main.style.display = "none";
-      finalMain.style.display = "block";
-      placeDecor(document.getElementById("decorLayerFinal"));
-      // Final albümü default dönsün
-    }
-    btnFinish.addEventListener("click", () => {
-      if(btnFinish.disabled) return;
-      goFinal();
-    });
-
-    // =============================
-    // 5) Album pause on mobile tap + hover
-    // =============================
-    function bindAlbumToggle(albumEl){
-      if(!albumEl) return;
-      const toggle = () => albumEl.classList.toggle("paused");
-      albumEl.addEventListener("click", toggle, {passive:true});
-      albumEl.addEventListener("touchend", (e)=>{ e.preventDefault(); toggle(); }, {passive:false});
-    }
-    bindAlbumToggle(document.getElementById("albumMain"));
-    bindAlbumToggle(document.getElementById("albumFinal"));
-
-    // =============================
-    // 6) Decor hearts (optional)
+    // 4) MAIN: Random decor (hearts + one loader) no overlap
     // =============================
     function rand(min, max){ return Math.random() * (max - min) + min; }
+    function rectsOverlap(a, b){
+      return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+    }
 
     function makeHeart(idSuffix){
       const wrapper = document.createElement("div");
       wrapper.className = "decorItem";
       wrapper.innerHTML = `
-        <div class="heart-container">
+        <div title="Like" class="heart-container">
           <input id="Give-It-An-Id-${idSuffix}" class="checkbox" type="checkbox">
           <div class="svg-container">
             <svg xmlns="http://www.w3.org/2000/svg" class="svg-outline" viewBox="0 0 24 24">
@@ -818,36 +1029,157 @@
       return wrapper;
     }
 
+    function makeLoaderDecor(){
+      const wrapper = document.createElement("div");
+      wrapper.className = "decorItem loaderDecor";
+      wrapper.innerHTML = `
+        <div class="loading" aria-hidden="true">
+          <svg width="64px" height="48px" viewBox="0 0 64 48">
+            <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="back"></polyline>
+            <polyline points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24" id="front"></polyline>
+          </svg>
+        </div>
+      `;
+      wrapper.style.transform = `scale(${rand(0.85, 1.15)}) rotate(${rand(-10,10)}deg)`;
+      return wrapper;
+    }
+
     function placeDecor(layer){
       if(!layer) return;
       layer.innerHTML = "";
-      const vw = window.innerWidth, vh = window.innerHeight;
-      const count = vw < 520 ? 10 : 16;
-      const palette = [
-        "rgba(240,141,178,.95)",
-        "rgba(247,167,196,.95)",
-        "rgba(183,155,223,.95)",
-        "rgba(122,75,183,.85)"
-      ];
+
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      const loader = makeLoaderDecor();
+      layer.appendChild(loader);
+
+      const loaderX = rand(0.06, 0.94) * vw;
+      const loaderY = rand(0.10, 0.90) * vh;
+      loader.style.left = `${loaderX}px`;
+      loader.style.top  = `${loaderY}px`;
+
+      const noGo = { left: loaderX - 140, top: loaderY - 110, right: loaderX + 140, bottom: loaderY + 110 };
+
+      // KALP SAYISI ARTTI
+      const count = vw < 520 ? 18 : 30;
+      const palette = [ "rgba(240,141,178,.95)", "rgba(247,167,196,.95)", "rgba(183,155,223,.95)", "rgba(122,75,183,.85)" ];
 
       for(let i=0;i<count;i++){
         const h = makeHeart(i+1);
-        const size = rand(34,54);
+
+        const size = rand(34, 56);
         h.style.width = `${size}px`;
         h.style.height = `${size}px`;
+
         const c = palette[Math.floor(Math.random()*palette.length)];
         h.querySelector(".heart-container").style.setProperty("--heart-color", c);
         h.style.transform = `rotate(${rand(-18,18)}deg)`;
-        h.style.left = `${rand(0.03,0.97)*vw}px`;
-        h.style.top  = `${rand(0.05,0.95)*vh}px`;
+
+        let placed = false;
+        for(let tries=0; tries<60; tries++){
+          const x = rand(0.03, 0.97) * vw;
+          const y = rand(0.05, 0.95) * vh;
+          const r = { left: x-28, top: y-28, right: x+28, bottom: y+28 };
+          if(!rectsOverlap(r, noGo)){
+            h.style.left = `${x}px`;
+            h.style.top  = `${y}px`;
+            placed = true;
+            break;
+          }
+        }
+        if(!placed){
+          h.style.left = `${rand(8, 40)}px`;
+          h.style.top  = `${rand(8, 40)}px`;
+        }
+
         layer.appendChild(h);
       }
     }
 
     window.addEventListener("resize", () => {
       if(main.style.display === "block") placeDecor(document.getElementById("decorLayer"));
-      if(finalMain.style.display === "block") placeDecor(document.getElementById("decorLayerFinal"));
+      if(document.getElementById("final").style.display === "block") placeDecor(document.getElementById("decorLayerFinal"));
+    });
+
+    // =============================
+    // 5) Album: telefonda basınca dur/başla
+    // =============================
+    function toggleAlbumPause(albumEl){
+      if(!albumEl) return;
+      albumEl.classList.toggle("paused");
+    }
+    const albumStage = document.getElementById("albumStage");
+    const album = document.getElementById("album");
+    albumStage.addEventListener("click", () => toggleAlbumPause(album));
+
+    const albumStage2 = document.getElementById("albumStage2");
+    const album2 = document.getElementById("album2");
+    albumStage2.addEventListener("click", () => toggleAlbumPause(album2));
+
+    // Desktop hover ile de durabilsin
+    albumStage.addEventListener("mouseenter", () => album.classList.add("paused"));
+    albumStage.addEventListener("mouseleave", () => album.classList.remove("paused"));
+    albumStage2.addEventListener("mouseenter", () => album2.classList.add("paused"));
+    albumStage2.addEventListener("mouseleave", () => album2.classList.remove("paused"));
+
+    // =============================
+    // 6) Finish -> Final + kalpli konfeti
+    // =============================
+    const final = document.getElementById("final");
+    const confettiLayer = document.getElementById("confettiLayer");
+
+    function heartSVG(color){
+      return `
+        <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+          <path fill="${color}" d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z"/>
+        </svg>
+      `;
+    }
+
+    function burstHearts(){
+      if(!confettiLayer) return;
+      confettiLayer.innerHTML = "";
+
+      const palette = ["#f08db2","#f7a7c4","#b79bdf","#7a4bb7"];
+      const amount = window.innerWidth < 520 ? 70 : 120;
+
+      for(let i=0;i<amount;i++){
+        const el = document.createElement("div");
+        el.className = "confettiHeart";
+
+        const x = Math.random() * 100; // vw
+        const dx = (Math.random()*2 - 1) * 80 + "px";
+        const rot = (Math.random()*720 - 360) + "deg";
+        const dur = (Math.random()*1.4 + 1.8).toFixed(2) + "s";
+        const delay = (Math.random()*0.25).toFixed(2) + "s";
+        const size = Math.floor(Math.random()*10) + 14;
+
+        const color = palette[Math.floor(Math.random()*palette.length)];
+        el.innerHTML = heartSVG(color);
+        el.style.left = x + "vw";
+        el.style.setProperty("--dx", dx);
+        el.style.setProperty("--rot", rot);
+        el.style.animationDuration = dur;
+        el.style.animationDelay = delay;
+        el.style.width = size + "px";
+        el.style.height = size + "px";
+
+        confettiLayer.appendChild(el);
+
+        el.addEventListener("animationend", () => el.remove());
+      }
+
+      setTimeout(() => { confettiLayer.innerHTML=""; }, 3500);
+    }
+
+    btnFinish.addEventListener("click", () => {
+      main.style.display = "none";
+      final.style.display = "block";
+      placeDecor(document.getElementById("decorLayerFinal"));
+      burstHearts();
     });
   </script>
 </body>
 </html>
+
